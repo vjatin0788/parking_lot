@@ -1,8 +1,8 @@
 package parkingLot
 
 import (
-	"parking_lot/parking_lot/util"
-	"parking_lot/parking_lot/vehicle"
+	"github.com/parking_lot/util"
+	"github.com/parking_lot/vehicle"
 )
 
 type ParkingLot struct {

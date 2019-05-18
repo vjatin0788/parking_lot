@@ -3,10 +3,11 @@ package parkingLot
 import (
 	"errors"
 	"fmt"
-	"parking_lot/parking_lot/vehicle"
 	"sort"
 	"strings"
 	"sync"
+
+	"github.com/parking_lot/vehicle"
 )
 
 var (
@@ -24,6 +25,10 @@ func MakeParkingLot() ParkingLotClient {
 }
 
 func (p *ParkingLot) InitParkingLot(slots int64, printEnabled bool) (err error) {
+	if slots == 0 {
+		err = errors.New(ERR_INVALID_SLOT_VALUE)
+		return
+	}
 
 	if !p.IsParkingLotInitialized {
 		p.IsParkingLotInitialized = true
@@ -57,6 +62,9 @@ func (p *ParkingLot) ParkVehicle(veh vehicle.Vehicle) (err error) {
 		err = errors.New(ERR_PARKING_LOT_FULL)
 		return
 	}
+
+	veh.RegisterationNumber = strings.ToUpper(veh.RegisterationNumber)
+	veh.Color = strings.Title(veh.Color)
 
 	if s, ok := p.RegistrationSlot[veh.RegisterationNumber]; !ok {
 		var slot int64
@@ -135,7 +143,7 @@ func (p *ParkingLot) ParkingLotStatus() (err error) {
 		return
 	}
 
-	fmt.Println("Slot Number | \tRegistration Number | \tColour")
+	fmt.Println("Slot Number | \tRegistration Number | \tColor")
 	var idx int64
 
 	for idx = 1; idx <= p.NumberOfSlots; idx++ {
@@ -153,6 +161,8 @@ func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, er
 		return
 	}
 
+	color = strings.Title(color)
+
 	res = make([]string, 0)
 	if reg, ok := p.ColorRegistrationSlot[color]; ok {
 		for regNo := range reg {
@@ -166,6 +176,13 @@ func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, er
 
 	sort.Strings(res)
 
+	if p.PrintEnabled {
+		for _, reg := range res {
+			fmt.Printf("%s ", reg)
+		}
+		fmt.Println()
+	}
+
 	return
 }
 
@@ -174,6 +191,8 @@ func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err er
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
 		return
 	}
+
+	color = strings.Title(color)
 
 	res = make([]int, 0)
 	if reg, ok := p.ColorRegistrationSlot[color]; ok {
@@ -188,6 +207,13 @@ func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err er
 
 	sort.Ints(res)
 
+	if p.PrintEnabled {
+		for _, sl := range res {
+			fmt.Printf("%d ", sl)
+		}
+		fmt.Println()
+	}
+
 	return
 }
 
@@ -197,10 +223,17 @@ func (p *ParkingLot) GetSlotWithRegisterationNum(register string) (s int64, err 
 		return
 	}
 
+	register = strings.ToUpper(register)
+
 	if slot, ok := p.RegistrationSlot[register]; ok {
 		s = slot
 	} else {
 		err = errors.New(ERR_EMPTY_REG_SLOT)
 	}
+
+	if p.PrintEnabled && err == nil {
+		fmt.Println(s)
+	}
+
 	return
 }

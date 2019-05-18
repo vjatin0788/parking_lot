@@ -5,7 +5,7 @@ type Vehicle struct {
 	Color               string
 }
 
-func InitCar() *Vehicle {
+func InitVehicle() *Vehicle {
 	return &Vehicle{}
 }
 

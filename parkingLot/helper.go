@@ -2,9 +2,10 @@ package parkingLot
 
 import (
 	"errors"
-	"parking_lot/parking_lot/util"
-	"parking_lot/parking_lot/vehicle"
 	"strings"
+
+	"github.com/parking_lot/util"
+	"github.com/parking_lot/vehicle"
 )
 
 const (
@@ -19,10 +20,11 @@ const (
 	ERR_COLOR_REGISTER_SLOT  = "Color Registration slot not init"
 	ERR_PARKING_LOT_FULL     = "Sorry, parking lot is full"
 	ERR_CAR_ALREADY_PARKED   = "Car already parked with registration number"
-	ERR_SLOT_EMPTY           = "Error slot already empty"
+	ERR_SLOT_EMPTY           = "slot w empty"
 	ERR_EMPTY_REG_FOR_COLOR  = "NO registration found for color"
 	ERR_EMPTY_SLOT_FOR_COLOR = "NO Slot occupied  for color"
-	ERR_EMPTY_REG_SLOT       = "No slot for for reg number"
+	ERR_EMPTY_REG_SLOT       = "Not Found"
+	ERR_INVALID_SLOT_VALUE   = "Invalid slot value"
 )
 
 func (p *ParkingLot) isParkingLotInit() (b bool, err error) {
@@ -128,8 +130,8 @@ func (p *ParkingLot) addColorRegistrationSlot(slot int64, veh *vehicle.Vehicle) 
 	}
 
 	regSlot := p.ColorRegistrationSlot[veh.Color]
-	if _, ok := regSlot[strings.ToUpper(veh.RegisterationNumber)]; !ok {
-		regSlot[strings.ToUpper(veh.RegisterationNumber)] = slot
+	if _, ok := regSlot[veh.RegisterationNumber]; !ok {
+		regSlot[veh.RegisterationNumber] = slot
 	}
 
 	return
@@ -191,7 +193,7 @@ func (p *ParkingLot) getSlotFromRegistration(veh vehicle.Vehicle) (slot int64, e
 	}
 
 	slot = -1
-	if s, ok := p.RegistrationSlot[strings.ToUpper(veh.RegisterationNumber)]; ok {
+	if s, ok := p.RegistrationSlot[veh.RegisterationNumber]; ok {
 		slot = s
 	}
 	return
@@ -207,7 +209,7 @@ func (p ParkingLot) getRegistrationNumberFromColor(veh vehicle.Vehicle) (regs []
 	if veh.Color != "" {
 		if regslot, ok := p.ColorRegistrationSlot[veh.Color]; ok {
 			for key := range regslot {
-				regs = append(regs, strings.ToUpper(key))
+				regs = append(regs, key)
 			}
 		}
 	}
