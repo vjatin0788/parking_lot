@@ -1,7 +1,6 @@
 package input
 
 import (
-	"fmt"
 	"os"
 	"os/user"
 )
@@ -30,10 +29,9 @@ func CreateIntractiveShell() {
 		panic(err)
 	}
 
-	state, err := proc.Wait()
+	_, err = proc.Wait()
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("<< Exited shell: %s\n", state.String())
 }
