@@ -15,7 +15,14 @@ do
    # or do whatever with individual element of the array
 done
 
+#test case
+go test ./...
+
+#build go package
 go build 
 
+#copy go package to bin.
 cp parking_lot bin/
+
+#remove binary
 rm parking_lot
