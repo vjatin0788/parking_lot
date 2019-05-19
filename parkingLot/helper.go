@@ -28,16 +28,6 @@ const (
 	ERR_EMPTY_VEHICLE_DATA   = "Empty Vehicle data"
 )
 
-func (p *ParkingLot) isParkingLotInit() (b bool, err error) {
-	if p != nil && p.IsParkingLotInitialized {
-		b = true
-		return
-	}
-
-	err = errors.New(ERR_PARKING_LOT_INIT)
-	return
-}
-
 func (p *ParkingLot) EnablePrint() *ParkingLot {
 	p.PrintEnabled = true
 	return p
@@ -148,7 +138,6 @@ func (p *ParkingLot) getSlotFromHeap() (s int64, err error) {
 	s = p.Slots.DeleteMin()
 	if s <= 0 {
 		err = errors.New(ERR_PARKING_FULL)
-		s = -1
 		return
 	}
 	p.SlotsAvailable = p.Slots.Count
