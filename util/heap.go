@@ -1,7 +1,9 @@
 package util
 
+import "math"
+
 type HeapNode struct {
-	Arr, Key []int64
+	Arr      []int64
 	Capacity int64 //size of heap.
 	Count    int64 //number of elements.
 	HeapType int64
@@ -84,7 +86,7 @@ func (node *HeapNode) DeleteMin() int64 {
 	}
 	removedElement := node.Arr[0]
 	node.Arr[0] = node.Arr[node.Count-1]
-	node.Arr[node.Count-1] = 0
+	node.Arr[node.Count-1] = math.MaxInt64
 	node.Count -= 1
 	node.PercolateDownMin(0)
 	return removedElement
@@ -103,25 +105,15 @@ func (node *HeapNode) ReSize(num int64) {
 	var newArr []int64
 	newArr = make([]int64, num)
 
-	for idx := range node.Arr {
-		newArr[idx] = node.Arr[idx]
+	for idx := 0; idx < int(num); idx++ {
+		if idx < len(node.Arr) {
+			newArr[idx] = node.Arr[idx]
+		} else {
+			newArr[idx] = math.MaxInt64
+		}
 	}
 	node.Capacity = num
 	node.Arr = newArr
-}
-
-func (node *HeapNode) ReSizeKey(num int64) {
-	var newArr []int64
-	newArr = make([]int64, num)
-	newKey := make([]int64, num)
-
-	for idx := range node.Key {
-		newArr[idx] = node.Arr[idx]
-		newKey[idx] = node.Key[idx]
-	}
-	node.Capacity = num
-	node.Arr = newArr
-	node.Key = newKey
 }
 
 func (node *HeapNode) PercolateUpMin(i int64) {
@@ -143,10 +135,6 @@ func (node *HeapNode) PercolateUpMin(i int64) {
 	}
 }
 
-func (node *HeapNode) DestroyHeap() *HeapNode {
-	return nil
-}
-
 func (node *HeapNode) BuildHeapMin(arr []int64, num int64) {
 	if node == nil {
 		return
@@ -165,33 +153,16 @@ func (node *HeapNode) BuildHeapMin(arr []int64, num int64) {
 	}
 }
 
-//Heap Sort ---------Time complexity : O(nlogn)
-func HeapSort(arr []int64, num int64) []int64 {
-	var (
-		result []int64
-		idx    int64
-	)
-	heap := InitHeap(num, 1)
-	heap.BuildHeapMin(arr, num)
-
-	for idx = num - 1; idx >= 0; idx-- {
-		result = append(result, heap.Arr[0])
-		heap.Arr[0] = heap.Arr[idx]
-		heap.Count -= 1
-		heap.PercolateDownMin(0)
-	}
-
-	return result
-}
-
 func InitHeap(capacity int64, hType int64) *HeapNode {
 	arr := make([]int64, capacity)
-	key := make([]int64, capacity)
+
+	for idx := range arr {
+		arr[idx] = math.MaxInt64
+	}
 
 	return &HeapNode{
 		Capacity: capacity,
 		Arr:      arr,
-		Key:      key,
 		HeapType: hType, // 1 := max heap type
 	}
 }
