@@ -58,6 +58,11 @@ func (p *ParkingLot) ParkVehicle(veh vehicle.Vehicle) (err error) {
 		return
 	}
 
+	if veh.Color == "" || veh.RegisterationNumber == "" {
+		err = errors.New(ERR_EMPTY_VEHICLE_DATA)
+		return
+	}
+
 	if p.isFull() {
 		err = errors.New(ERR_PARKING_LOT_FULL)
 		return
@@ -103,6 +108,11 @@ func (p *ParkingLot) ParkVehicle(veh vehicle.Vehicle) (err error) {
 func (p *ParkingLot) LeaveVehicle(slot int64) (err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
+		return
+	}
+
+	if slot > p.NumberOfSlots {
+		err = errors.New(ERR_INVALID_SLOT_VALUE)
 		return
 	}
 

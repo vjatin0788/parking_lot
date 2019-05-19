@@ -20,11 +20,12 @@ const (
 	ERR_COLOR_REGISTER_SLOT  = "Color Registration slot not init"
 	ERR_PARKING_LOT_FULL     = "Sorry, parking lot is full"
 	ERR_CAR_ALREADY_PARKED   = "Car already parked with registration number"
-	ERR_SLOT_EMPTY           = "slot w empty"
+	ERR_SLOT_EMPTY           = "slot already empty"
 	ERR_EMPTY_REG_FOR_COLOR  = "NO registration found for color"
 	ERR_EMPTY_SLOT_FOR_COLOR = "NO Slot occupied  for color"
 	ERR_EMPTY_REG_SLOT       = "Not Found"
 	ERR_INVALID_SLOT_VALUE   = "Invalid slot value"
+	ERR_EMPTY_VEHICLE_DATA   = "Empty Vehicle data"
 )
 
 func (p *ParkingLot) isParkingLotInit() (b bool, err error) {
