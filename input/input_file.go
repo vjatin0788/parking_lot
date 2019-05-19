@@ -17,6 +17,7 @@ const (
 	ERR_COMMAND_NOT_ALLOWED = "Command not allowed"
 )
 
+//only allowed commands are executed.
 var allowedCommands = map[string]bool{
 	"create_parking_lot": true,
 	"park":               true,

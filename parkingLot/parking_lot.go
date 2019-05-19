@@ -24,6 +24,7 @@ func MakeParkingLot() ParkingLotClient {
 	return parlingLotInstance
 }
 
+//Initialize parking lot with default values, printEnable is used to enable print output in functions.
 func (p *ParkingLot) InitParkingLot(slots int64, printEnabled bool) (err error) {
 	if slots == 0 {
 		err = errors.New(ERR_INVALID_SLOT_VALUE)
@@ -52,6 +53,11 @@ func (p *ParkingLot) InitParkingLot(slots int64, printEnabled bool) (err error) 
 	return
 }
 
+//Park vehicle will fetch the nearest empty slot from Min heap.
+//It will add the vehicle to vehicle slot map.
+//It will add the registration number to registration slot map
+//It will add the registration data, color and slot to the color registration slot map.
+//Time complexity for adding to map O(1), Fetching from Min heap is O(1)
 func (p *ParkingLot) ParkVehicle(veh vehicle.Vehicle) (err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
@@ -105,6 +111,9 @@ func (p *ParkingLot) ParkVehicle(veh vehicle.Vehicle) (err error) {
 	return
 }
 
+//This function will remove the vehicle from slot and slot will be added to heap.
+//This will remove the slot and vehicle data from all the maps.
+//Time complexity for heap will be O(Logn).
 func (p *ParkingLot) LeaveVehicle(slot int64) (err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
@@ -147,6 +156,8 @@ func (p *ParkingLot) LeaveVehicle(slot int64) (err error) {
 	return
 }
 
+//It will print the status of the parking lot.
+//time complexity will  be O(n).
 func (p *ParkingLot) ParkingLotStatus() (err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
@@ -165,6 +176,9 @@ func (p *ParkingLot) ParkingLotStatus() (err error) {
 	return
 }
 
+//It will fetch the registration number from the color registration slot map.
+//Time complexity for fetching from map O(1)
+//Sorting the string array. O(klogk) where `k` is subset of `n`.
 func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
@@ -196,6 +210,9 @@ func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, er
 	return
 }
 
+//It will fetch the slot from the color registration slot map.
+//Time complexity for fetching from map O(1)
+//Sorting the string array. O(klogk) where `k` is subset of `n`.
 func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)
@@ -227,6 +244,8 @@ func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err er
 	return
 }
 
+//It will fetch the registration number from the registration slot map.
+//Time complexity for fetching from map O(1)
 func (p *ParkingLot) GetSlotWithRegisterationNum(register string) (s int64, err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(ERR_PARKING_LOT_NOT_INIT)

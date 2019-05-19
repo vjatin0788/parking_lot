@@ -15,8 +15,14 @@ do
    # or do whatever with individual element of the array
 done
 
+echo "---------->Commands created<-----------"
+
+echo "---------->Running test case<----------"
+
 #test case
 go test ./...
+
+echo "---------->Building go package<--------"
 
 #build go package
 go build 
