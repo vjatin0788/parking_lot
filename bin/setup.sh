@@ -14,3 +14,8 @@ do
     rm $i
    # or do whatever with individual element of the array
 done
+
+go build 
+
+cp parking_lot bin/
+rm parking_lot
