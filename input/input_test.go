@@ -26,3 +26,11 @@ func TestGetFile(t *testing.T) {
 		t.Errorf("Test Failed, expected:%s , found:%s", res, str)
 	}
 }
+
+func TestProcessCommandInvalidCommand(t *testing.T) {
+	res := ERR_COMMAND_NOT_ALLOWED
+	err := processCommands([]string{"qwerty"})
+	if err != nil && err.Error() != res {
+		t.Errorf("Test Failed, expected:%s , found:%s", res, err.Error())
+	}
+}
