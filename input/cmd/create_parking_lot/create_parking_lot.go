@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/rpc"
 	"os"
 	"strconv"
@@ -19,9 +18,10 @@ func main() {
 			fmt.Printf("%v\n", err)
 		}
 
-		client, err := rpc.DialHTTP("tcp", "localhost:1234")
+		client, err := rpc.DialHTTP("tcp", "localhost:9999")
 		if err != nil {
-			log.Fatal("dialing:", err)
+			fmt.Println(err)
+			return
 		}
 
 		args := &parkingLotRPC.ParkingLotRPC{

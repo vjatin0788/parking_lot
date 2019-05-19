@@ -26,7 +26,7 @@ func main() {
 	rpc.Register(serve)
 	rpc.HandleHTTP()
 
-	l, e := net.Listen("tcp", ":1234")
+	l, e := net.Listen("tcp", ":9999")
 	if e != nil {
 		log.Fatal("listen error:", e)
 	}
