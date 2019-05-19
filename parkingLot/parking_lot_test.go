@@ -18,7 +18,7 @@ func TestParkingLotInitInvalidSlotValue(t *testing.T) {
 func TestParkingLotInit(t *testing.T) {
 
 	err := MakeParkingLot().InitParkingLot(0, true)
-	if err != nil {
+	if err == nil {
 		t.Errorf("Test Failed %v", err)
 	}
 }
@@ -33,7 +33,7 @@ func TestParkingLotParkNotInit(t *testing.T) {
 }
 
 func TestParkingLotParkInvalidVehicle(t *testing.T) {
-	p := MakeParkingLot()
+	p := &ParkingLot{}
 
 	p.InitParkingLot(1, true)
 
@@ -45,8 +45,7 @@ func TestParkingLotParkInvalidVehicle(t *testing.T) {
 }
 
 func TestParkingLotParkVehicle(t *testing.T) {
-	p := MakeParkingLot()
-
+	p := &ParkingLot{}
 	p.InitParkingLot(1, true)
 
 	err := p.ParkVehicle(*vehicle.InitVehicle().AddColor("white").AddRegistrationNumber("PB-03-AZ-1234"))
@@ -78,8 +77,7 @@ func TestParkingLotLeaveNotInit(t *testing.T) {
 }
 
 func TestParkingLotLeaveInvalidSlot(t *testing.T) {
-	p := MakeParkingLot()
-
+	p := &ParkingLot{}
 	p.InitParkingLot(1, true)
 
 	err := p.ParkVehicle(*vehicle.InitVehicle().AddColor("white").AddRegistrationNumber("PB-03-AZ-1234"))
@@ -95,8 +93,7 @@ func TestParkingLotLeaveInvalidSlot(t *testing.T) {
 }
 
 func TestParkingLotLeave(t *testing.T) {
-	p := MakeParkingLot()
-
+	p := &ParkingLot{}
 	p.InitParkingLot(2, true)
 
 	err := p.ParkVehicle(*vehicle.InitVehicle().AddColor("white").AddRegistrationNumber("PB-03-AZ-1234"))
@@ -175,7 +172,7 @@ func TestParkingLotGetSlotWithColor(t *testing.T) {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
 	}
 
-	p := MakeParkingLot()
+	p := &ParkingLot{}
 
 	p.InitParkingLot(2, true)
 
@@ -211,7 +208,7 @@ func TestParkingLotGetSlotWithReg(t *testing.T) {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
 	}
 
-	p := MakeParkingLot()
+	p := &ParkingLot{}
 
 	p.InitParkingLot(2, true)
 
