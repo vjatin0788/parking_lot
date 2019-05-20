@@ -1,4 +1,4 @@
-#execute setup
+#!/bin/bash
 
 echo "Executing Setup script"
 

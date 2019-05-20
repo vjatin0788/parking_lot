@@ -5,6 +5,8 @@ import (
 	"io"
 	"os"
 	"testing"
+
+	parking "github.com/parking_lot/parkingLot"
 )
 
 func TestReadFile(t *testing.T) {
@@ -33,4 +35,13 @@ func TestProcessCommandInvalidCommand(t *testing.T) {
 	if err != nil && err.Error() != res {
 		t.Errorf("Test Failed, expected:%s , found:%s", res, err.Error())
 	}
+}
+
+func TestProcessCommandInit(t *testing.T) {
+	resp := parking.ERR_INVALID_SLOT_VALUE
+	err := processCommands([]string{"create_parking_lot", "6"})
+	if err != nil && err.Error() != resp {
+		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
+	}
+
 }

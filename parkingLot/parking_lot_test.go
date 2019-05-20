@@ -10,7 +10,7 @@ import (
 func TestParkingLotInitInvalidSlotValue(t *testing.T) {
 	resp := ERR_INVALID_SLOT_VALUE
 	err := MakeParkingLot().InitParkingLot(0, true)
-	if err.Error() != resp {
+	if err != nil && err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
 	}
 }
