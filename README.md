@@ -7,6 +7,9 @@ Min Heap is used to store the empty slots and fetch the nearest slot in optimal 
 
 3. script is written in `bin/setup` to install dependencies,run test case and build package. It will generate `bin/parking_lot` binary to run the application.
 
+
+
+
 Follow this step to run application in Golang
 
 1. To run this application, install Go.

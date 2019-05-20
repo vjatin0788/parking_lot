@@ -5,6 +5,9 @@ import (
 	"github.com/parking_lot/vehicle"
 )
 
+//RPC is used for Inter process communication.
+//Interactive shell commands will intract with this app through RPC.
+//Seprate functions are implemented for seprate commands.
 type ParkingLotRPC struct {
 	Slot              int64
 	Color             string

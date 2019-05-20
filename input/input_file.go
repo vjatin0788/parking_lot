@@ -81,6 +81,7 @@ func ProcessFile(readFile []string) {
 	}
 }
 
+//process file commands
 func processCommands(words []string) (err error) {
 	parkingLot := parking.MakeParkingLot()
 

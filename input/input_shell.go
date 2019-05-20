@@ -5,6 +5,7 @@ import (
 	"os/user"
 )
 
+//Create the interactive shell to execute the commands.
 func CreateIntractiveShell() {
 
 	me, err := user.Current()
