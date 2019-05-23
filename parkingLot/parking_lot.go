@@ -170,7 +170,7 @@ func (p *ParkingLot) ParkingLotStatus() (err error) {
 
 	for idx = 1; idx <= p.NumberOfSlots; idx++ {
 		if veh, ok := p.VehicleSlot[idx]; ok {
-			fmt.Printf("%-12v%-19v%-6v\n", idx, strings.ToUpper(veh.RegisterationNumber), veh.Color)
+			fmt.Printf("%-12v%-19v%v\n", idx, strings.ToUpper(veh.RegisterationNumber), veh.Color)
 		}
 	}
 
@@ -202,7 +202,7 @@ func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, er
 	sort.Strings(res)
 
 	if p.PrintEnabled {
-		fmt.Println(strings.Join(res, ","))
+		fmt.Println(strings.Join(res, ", "))
 	}
 
 	return
@@ -233,7 +233,7 @@ func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []string, err
 	sort.Strings(res)
 
 	if p.PrintEnabled {
-		fmt.Println(strings.Join(res, ","))
+		fmt.Println(strings.Join(res, ", "))
 	}
 
 	return

@@ -43,7 +43,8 @@ RSpec.describe 'End To End Suite' do
     end
 
     it "input from file" do
-      pty = PTY.spawn("parking_lot #{File.join(File.dirname(__FILE__), '..', 'fixtures', 'file_input.txt')}")
+      project_bin_dir = File.join('fixtures', 'file_input.txt')
+      pty = PTY.spawn("parking_lot #{project_bin_dir}")
       print 'Testing file input: '
       expect(fetch_stdout(pty)).to eq(expected.join(''))
     end
