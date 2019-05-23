@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -16,14 +15,14 @@ import (
 
 //only allowed commands are executed.
 var allowedCommands = map[string]bool{
-	"create_parking_lot": true,
-	"park":               true,
-	"leave":              true,
-	"status":             true,
-	"registration_numbers_for_cars_with_colour": true,
-	"slot_numbers_for_cars_with_colour":         true,
-	"slot_number_for_registration_number":       true,
-	"exit": true,
+	CREATE_PARKING_LOT:  true,
+	PARK:                true,
+	LEAVE:               true,
+	STATUS:              true,
+	REG_NUM_WITH_COLOR:  true,
+	SLOT_NUM_WITH_COLOR: true,
+	SLOT_NUM_REG_NUM:    true,
+	EXIT:                true,
 }
 
 func ReadFile(fileName string) (lines []string, err error) {
@@ -35,19 +34,15 @@ func ReadFile(fileName string) (lines []string, err error) {
 
 	defer file.Close()
 
-	br := bufio.NewReader(file)
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		command := strings.ToLower(scanner.Text())
+		lines = append(lines, strings.TrimSpace(command))
+	}
 
-	for err != io.EOF {
-		// Includes the delimiter
-		var l string
-		l, err = br.ReadString('\n')
-
-		if err != nil && err != io.EOF {
-			return
-		}
-
-		// Trimming space to remove the delimiter at the end
-		lines = append(lines, strings.TrimSpace(l))
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "error:", err)
+		os.Exit(1)
 	}
 
 	return
@@ -88,7 +83,7 @@ func processCommands(words []string) (err error) {
 
 		if _, ok := allowedCommands[word]; ok {
 			switch word {
-			case "create_parking_lot":
+			case CREATE_PARKING_LOT:
 				if !(len(words) > 1) {
 					err = errors.New(errs.ERR_INVALID_ARGUMENT)
 					return
@@ -107,7 +102,7 @@ func processCommands(words []string) (err error) {
 					return
 				}
 
-			case "park":
+			case PARK:
 				if !(len(words) > 2) {
 					err = errors.New(errs.ERR_INVALID_ARGUMENT)
 					return
@@ -125,7 +120,7 @@ func processCommands(words []string) (err error) {
 					return
 				}
 
-			case "leave":
+			case LEAVE:
 				if !(len(words) > 1) {
 					err = errors.New(errs.ERR_INVALID_ARGUMENT)
 					return
@@ -144,12 +139,12 @@ func processCommands(words []string) (err error) {
 					return
 				}
 
-			case "status":
+			case STATUS:
 				err = parkingLot.ParkingLotStatus()
 				if err != nil {
 					return
 				}
-			case "registration_numbers_for_cars_with_colour":
+			case REG_NUM_WITH_COLOR:
 
 				if !(len(words) > 1) {
 					err = errors.New(errs.ERR_INVALID_ARGUMENT)
@@ -162,7 +157,7 @@ func processCommands(words []string) (err error) {
 				if err != nil {
 					return
 				}
-			case "slot_numbers_for_cars_with_colour":
+			case SLOT_NUM_WITH_COLOR:
 
 				if !(len(words) > 1) {
 					err = errors.New(errs.ERR_INVALID_ARGUMENT)
@@ -176,7 +171,7 @@ func processCommands(words []string) (err error) {
 					return
 				}
 
-			case "slot_number_for_registration_number":
+			case SLOT_NUM_REG_NUM:
 
 				if !(len(words) > 1) {
 					err = errors.New(errs.ERR_INVALID_ARGUMENT)
@@ -189,7 +184,7 @@ func processCommands(words []string) (err error) {
 				if err != nil {
 					return
 				}
-			case "exit":
+			case EXIT:
 				os.Exit(0)
 			}
 		} else {
