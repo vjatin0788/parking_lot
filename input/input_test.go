@@ -43,5 +43,4 @@ func TestProcessCommandInit(t *testing.T) {
 	if err != nil && err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
 	}
-
 }

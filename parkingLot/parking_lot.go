@@ -202,10 +202,7 @@ func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, er
 	sort.Strings(res)
 
 	if p.PrintEnabled {
-		for _, reg := range res {
-			fmt.Printf("%s ", reg)
-		}
-		fmt.Println()
+		fmt.Println(strings.Join(res, ","))
 	}
 
 	return
@@ -214,7 +211,7 @@ func (p *ParkingLot) GetRegistrationNumWithColor(color string) (res []string, er
 //It will fetch the slot from the color registration slot map.
 //Time complexity for fetching from map O(1)
 //Sorting the string array. O(klogk) where `k` is subset of `n`.
-func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err error) {
+func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []string, err error) {
 	if !p.IsParkingLotInitialized {
 		err = errors.New(errs.ERR_PARKING_LOT_NOT_INIT)
 		return
@@ -222,10 +219,10 @@ func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err er
 
 	color = strings.Title(color)
 
-	res = make([]int, 0)
+	res = make([]string, 0)
 	if reg, ok := p.ColorRegistrationSlot[color]; ok {
 		for _, slot := range reg {
-			res = append(res, int(slot))
+			res = append(res, fmt.Sprintf("%d", slot))
 		}
 	}
 
@@ -233,13 +230,10 @@ func (p *ParkingLot) GetSlotNumsForCarWithColor(color string) (res []int, err er
 		err = errors.New(errs.ERR_EMPTY_REG_FOR_COLOR)
 	}
 
-	sort.Ints(res)
+	sort.Strings(res)
 
 	if p.PrintEnabled {
-		for _, sl := range res {
-			fmt.Printf("%d ", sl)
-		}
-		fmt.Println()
+		fmt.Println(strings.Join(res, ","))
 	}
 
 	return

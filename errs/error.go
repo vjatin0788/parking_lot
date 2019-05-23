@@ -14,7 +14,7 @@ const (
 	ERR_SLOT_EMPTY           = "slot already empty"
 	ERR_EMPTY_REG_FOR_COLOR  = "NO registration found for color"
 	ERR_EMPTY_SLOT_FOR_COLOR = "NO Slot occupied  for color"
-	ERR_EMPTY_REG_SLOT       = "Not Found"
+	ERR_EMPTY_REG_SLOT       = "Not found"
 	ERR_INVALID_SLOT_VALUE   = "Invalid slot value"
 	ERR_EMPTY_VEHICLE_DATA   = "Empty Vehicle data"
 	ERR_COMMAND_NOT_ALLOWED  = "Command not allowed"

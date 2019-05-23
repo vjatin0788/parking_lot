@@ -192,10 +192,10 @@ func TestParkingLotGetSlotWithColor(t *testing.T) {
 		t.Errorf("Test Failed, %v", err)
 	}
 
-	expected := []int{1, 2}
+	expected := []string{"1", "2"}
 	for idx := range res {
 		if res[idx] != expected[idx] {
-			t.Errorf("Test Failed, expected:%d, found:%d", expected[idx], res[idx])
+			t.Errorf("Test Failed, expected:%s, found:%s", expected[idx], res[idx])
 		}
 	}
 }
