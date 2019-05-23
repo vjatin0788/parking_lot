@@ -3,6 +3,7 @@ package parkingLot
 import (
 	"testing"
 
+	errs "github.com/parking_lot/errs"
 	"github.com/parking_lot/vehicle"
 )
 
@@ -25,11 +26,11 @@ func TestAddVehicleToSlot(t *testing.T) {
 
 	err := p.addVehicleToSlot(1, nil)
 	if err == nil {
-		t.Errorf("Test Failed, expected:%s, found:%v", ERR_INVALID_VEHICLE, err)
+		t.Errorf("Test Failed, expected:%s, found:%v", errs.ERR_INVALID_VEHICLE, err)
 	}
 
-	if err != nil && err.Error() != ERR_INVALID_VEHICLE {
-		t.Errorf("Test Failed, expected:%s, found:%v", ERR_INVALID_VEHICLE, err)
+	if err != nil && err.Error() != errs.ERR_INVALID_VEHICLE {
+		t.Errorf("Test Failed, expected:%s, found:%v", errs.ERR_INVALID_VEHICLE, err)
 	}
 
 	err = p.addVehicleToSlot(1, vehicle.InitVehicle().AddColor("Blue").AddRegistrationNumber("PB-03-AZ-1234"))
@@ -39,11 +40,11 @@ func TestAddVehicleToSlot(t *testing.T) {
 
 	err = p.addVehicleToSlot(1, vehicle.InitVehicle().AddColor("Blue").AddRegistrationNumber("PB-03-AZ-1239"))
 	if err == nil {
-		t.Errorf("Test Failed, expected:%s, found:%v", ERR_INVALID_VEHICLE, err)
+		t.Errorf("Test Failed, expected:%s, found:%v", errs.ERR_INVALID_VEHICLE, err)
 	}
 
-	if err != nil && err.Error() != ERR_SLOT_OCCUPIED {
-		t.Errorf("Test Failed, expected:%s, found:%v", ERR_SLOT_OCCUPIED, err)
+	if err != nil && err.Error() != errs.ERR_SLOT_OCCUPIED {
+		t.Errorf("Test Failed, expected:%s, found:%v", errs.ERR_SLOT_OCCUPIED, err)
 	}
 
 }
@@ -54,11 +55,11 @@ func TestAddRegToSlot(t *testing.T) {
 
 	err := p.addRegistrationSlot(1, nil)
 	if err == nil {
-		t.Errorf("Test Failed, expected:%s, found:%v", ERR_INVALID_VEHICLE, err)
+		t.Errorf("Test Failed, expected:%s, found:%v", errs.ERR_INVALID_VEHICLE, err)
 	}
 
-	if err != nil && err.Error() != ERR_INVALID_VEHICLE {
-		t.Errorf("Test Failed, expected:%s, found:%v", ERR_INVALID_VEHICLE, err)
+	if err != nil && err.Error() != errs.ERR_INVALID_VEHICLE {
+		t.Errorf("Test Failed, expected:%s, found:%v", errs.ERR_INVALID_VEHICLE, err)
 	}
 }
 
@@ -73,5 +74,3 @@ func TestGetSlotFromHeap(t *testing.T) {
 		t.Errorf("Test Failed %v", err)
 	}
 }
-
-

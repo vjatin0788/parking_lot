@@ -1,38 +1,41 @@
 package input
 
 import (
+	"bufio"
+	"fmt"
 	"os"
-	"os/user"
+	"strings"
 )
 
+type Shell struct {
+	Cmd string
+}
+
 //Create the interactive shell to execute the commands.
-func CreateIntractiveShell() {
+func CreateIntractiveShell() *Shell {
+	return &Shell{
+		Cmd: "$ ",
+	}
+}
 
-	me, err := user.Current()
-	if err != nil {
-		panic(err)
+func (s *Shell) RunShell() {
+	scanner := bufio.NewScanner(os.Stdin)
+	s.newLine()
+	for scanner.Scan() {
+		command := strings.ToLower(scanner.Text())
+		err := processCommands(strings.Fields(command))
+		if err != nil {
+			fmt.Println(err)
+		}
+		s.newLine()
 	}
 
-	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "error:", err)
+		os.Exit(1)
 	}
+}
 
-	os.Setenv("PL_ENV", "1")
-
-	pa := os.ProcAttr{
-		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
-		Dir:   cwd,
-	}
-
-	proc, err := os.StartProcess("/usr/bin/login", []string{"login", "-fpl", me.Username}, &pa)
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = proc.Wait()
-	if err != nil {
-		panic(err)
-	}
-
+func (s *Shell) newLine() {
+	fmt.Print(s.Cmd)
 }

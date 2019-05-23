@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"testing"
 
+	errs "github.com/parking_lot/errs"
 	"github.com/parking_lot/vehicle"
 )
 
 func TestParkingLotInitInvalidSlotValue(t *testing.T) {
-	resp := ERR_INVALID_SLOT_VALUE
+	resp := errs.ERR_INVALID_SLOT_VALUE
 	err := MakeParkingLot().InitParkingLot(0, true)
 	if err != nil && err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
@@ -25,7 +26,7 @@ func TestParkingLotInit(t *testing.T) {
 
 func TestParkingLotParkNotInit(t *testing.T) {
 	p := &ParkingLot{}
-	resp := ERR_PARKING_LOT_NOT_INIT
+	resp := errs.ERR_PARKING_LOT_NOT_INIT
 	err := p.ParkVehicle(*vehicle.InitVehicle())
 	if err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
@@ -37,7 +38,7 @@ func TestParkingLotParkInvalidVehicle(t *testing.T) {
 
 	p.InitParkingLot(1, true)
 
-	resp := ERR_EMPTY_VEHICLE_DATA
+	resp := errs.ERR_EMPTY_VEHICLE_DATA
 	err := p.ParkVehicle(*vehicle.InitVehicle())
 	if err == nil {
 		t.Errorf("Test Failed, expected:%s, found:%v", resp, err)
@@ -53,13 +54,13 @@ func TestParkingLotParkVehicle(t *testing.T) {
 		t.Errorf("Test Failed, %v", err)
 	}
 
-	res := fmt.Sprintf("%s , PB-03-AZ-1234 on slot: 1", ERR_CAR_ALREADY_PARKED)
+	res := fmt.Sprintf("%s , PB-03-AZ-1234 on slot: 1", errs.ERR_CAR_ALREADY_PARKED)
 	err = p.ParkVehicle(*vehicle.InitVehicle().AddColor("white").AddRegistrationNumber("PB-03-AZ-1234"))
 	if err != nil && err.Error() != res {
 		t.Errorf("Test Failed, expected:%s, found:%v", res, err)
 	}
 
-	res = "Parking full"
+	res = errs.ERR_PARKING_LOT_FULL
 	err = p.ParkVehicle(*vehicle.InitVehicle().AddColor("white").AddRegistrationNumber("PB-03-AZ-1233"))
 	if err != nil && err.Error() != res {
 		t.Errorf("Test Failed, expected:%s, found:%v", res, err)
@@ -69,7 +70,7 @@ func TestParkingLotParkVehicle(t *testing.T) {
 
 func TestParkingLotLeaveNotInit(t *testing.T) {
 	p := &ParkingLot{}
-	resp := ERR_PARKING_LOT_NOT_INIT
+	resp := errs.ERR_PARKING_LOT_NOT_INIT
 	err := p.LeaveVehicle(1)
 	if err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
@@ -85,7 +86,7 @@ func TestParkingLotLeaveInvalidSlot(t *testing.T) {
 		t.Errorf("Test Failed, %v", err)
 	}
 
-	resp := ERR_INVALID_SLOT_VALUE
+	resp := errs.ERR_INVALID_SLOT_VALUE
 	err = p.LeaveVehicle(2)
 	if err == nil {
 		t.Errorf("Test Failed, expected:%s, found:%v", resp, err)
@@ -111,7 +112,7 @@ func TestParkingLotLeave(t *testing.T) {
 		t.Errorf("Test Failed, %v", err)
 	}
 
-	res := ERR_SLOT_EMPTY
+	res := errs.ERR_SLOT_EMPTY
 	err = p.LeaveVehicle(2)
 	if err != nil && err.Error() != res {
 		t.Errorf("Test Failed, expected:%s, found:%v", res, err)
@@ -120,7 +121,7 @@ func TestParkingLotLeave(t *testing.T) {
 
 func TestParkingLotStatusNotInit(t *testing.T) {
 	p := &ParkingLot{}
-	resp := ERR_PARKING_LOT_NOT_INIT
+	resp := errs.ERR_PARKING_LOT_NOT_INIT
 	err := p.ParkingLotStatus()
 	if err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
@@ -130,7 +131,7 @@ func TestParkingLotStatusNotInit(t *testing.T) {
 func TestParkingLotGetRegNumWithColor(t *testing.T) {
 
 	pk := &ParkingLot{}
-	resp := ERR_PARKING_LOT_NOT_INIT
+	resp := errs.ERR_PARKING_LOT_NOT_INIT
 	_, err := pk.GetRegistrationNumWithColor("White")
 	if err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
@@ -166,7 +167,7 @@ func TestParkingLotGetRegNumWithColor(t *testing.T) {
 func TestParkingLotGetSlotWithColor(t *testing.T) {
 
 	pk := &ParkingLot{}
-	resp := ERR_PARKING_LOT_NOT_INIT
+	resp := errs.ERR_PARKING_LOT_NOT_INIT
 	_, err := pk.GetSlotNumsForCarWithColor("White")
 	if err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())
@@ -202,7 +203,7 @@ func TestParkingLotGetSlotWithColor(t *testing.T) {
 func TestParkingLotGetSlotWithReg(t *testing.T) {
 
 	pk := &ParkingLot{}
-	resp := ERR_PARKING_LOT_NOT_INIT
+	resp := errs.ERR_PARKING_LOT_NOT_INIT
 	_, err := pk.GetSlotWithRegisterationNum("PB-03-AZ-1234")
 	if err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())

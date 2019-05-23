@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	parking "github.com/parking_lot/parkingLot"
+	errs "github.com/parking_lot/errs"
 )
 
 func TestReadFile(t *testing.T) {
@@ -30,7 +30,7 @@ func TestGetFile(t *testing.T) {
 }
 
 func TestProcessCommandInvalidCommand(t *testing.T) {
-	res := ERR_COMMAND_NOT_ALLOWED
+	res := errs.ERR_COMMAND_NOT_ALLOWED
 	err := processCommands([]string{"qwerty"})
 	if err != nil && err.Error() != res {
 		t.Errorf("Test Failed, expected:%s , found:%s", res, err.Error())
@@ -38,7 +38,7 @@ func TestProcessCommandInvalidCommand(t *testing.T) {
 }
 
 func TestProcessCommandInit(t *testing.T) {
-	resp := parking.ERR_INVALID_SLOT_VALUE
+	resp := errs.ERR_INVALID_SLOT_VALUE
 	err := processCommands([]string{"create_parking_lot", "6"})
 	if err != nil && err.Error() != resp {
 		t.Errorf("Test Failed, expected:%s, found:%s", resp, err.Error())

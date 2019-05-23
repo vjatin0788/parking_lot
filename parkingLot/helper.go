@@ -4,28 +4,9 @@ import (
 	"errors"
 	"strings"
 
+	errs "github.com/parking_lot/errs"
 	"github.com/parking_lot/util"
 	"github.com/parking_lot/vehicle"
-)
-
-const (
-	ERR_PARKING_LOT_INIT     = "Parking lot already initialised"
-	ERR_PARKING_LOT_NOT_INIT = "Parking lot not init"
-	ERR_SLOT_OCCUPIED        = "Slot already occupied"
-	ERR_INVALID_VEHICLE      = "Invalid vehicle"
-	ERR_PARKING_FULL         = "Parking full"
-	ERR_SLOT_NOT_INIT        = "slot not init"
-	ERR_VEHICLE_SLOT         = "Vehicle slot map not init"
-	ERR_REGISTER_SLOT        = "Register slot map not init"
-	ERR_COLOR_REGISTER_SLOT  = "Color Registration slot not init"
-	ERR_PARKING_LOT_FULL     = "Sorry, parking lot is full"
-	ERR_CAR_ALREADY_PARKED   = "Car already parked with registration number"
-	ERR_SLOT_EMPTY           = "slot already empty"
-	ERR_EMPTY_REG_FOR_COLOR  = "NO registration found for color"
-	ERR_EMPTY_SLOT_FOR_COLOR = "NO Slot occupied  for color"
-	ERR_EMPTY_REG_SLOT       = "Not Found"
-	ERR_INVALID_SLOT_VALUE   = "Invalid slot value"
-	ERR_EMPTY_VEHICLE_DATA   = "Empty Vehicle data"
 )
 
 func (p *ParkingLot) EnablePrint() *ParkingLot {
@@ -72,13 +53,13 @@ func (p *ParkingLot) addVehicleToSlot(slot int64, veh *vehicle.Vehicle) (err err
 
 	//check empty veh
 	if veh == nil {
-		err = errors.New(ERR_INVALID_VEHICLE)
+		err = errors.New(errs.ERR_INVALID_VEHICLE)
 		return
 	}
 
 	//check if slot is already occupoed
 	if _, ok := p.VehicleSlot[slot]; ok {
-		err = errors.New(ERR_SLOT_OCCUPIED)
+		err = errors.New(errs.ERR_SLOT_OCCUPIED)
 		return
 	}
 
@@ -93,7 +74,7 @@ func (p *ParkingLot) addRegistrationSlot(slot int64, veh *vehicle.Vehicle) (err 
 
 	//check empty veh
 	if veh == nil {
-		err = errors.New(ERR_INVALID_VEHICLE)
+		err = errors.New(errs.ERR_INVALID_VEHICLE)
 		return
 	}
 
@@ -111,7 +92,7 @@ func (p *ParkingLot) addColorRegistrationSlot(slot int64, veh *vehicle.Vehicle) 
 
 	//check empty veh
 	if veh == nil {
-		err = errors.New(ERR_INVALID_VEHICLE)
+		err = errors.New(errs.ERR_INVALID_VEHICLE)
 		return
 	}
 
@@ -131,13 +112,13 @@ func (p *ParkingLot) addColorRegistrationSlot(slot int64, veh *vehicle.Vehicle) 
 func (p *ParkingLot) getSlotFromHeap() (s int64, err error) {
 	if p.Slots == nil {
 		s = -1
-		err = errors.New(ERR_SLOT_NOT_INIT)
+		err = errors.New(errs.ERR_SLOT_NOT_INIT)
 		return
 	}
 
 	s = p.Slots.DeleteMin()
 	if s <= 0 {
-		err = errors.New(ERR_PARKING_FULL)
+		err = errors.New(errs.ERR_PARKING_LOT_FULL)
 		return
 	}
 	p.SlotsAvailable = p.Slots.Count
@@ -147,7 +128,7 @@ func (p *ParkingLot) getSlotFromHeap() (s int64, err error) {
 
 func (p *ParkingLot) addSlotToHeap(slot int64) (err error) {
 	if p.Slots == nil {
-		err = errors.New(ERR_SLOT_NOT_INIT)
+		err = errors.New(errs.ERR_SLOT_NOT_INIT)
 		return
 	}
 
@@ -166,7 +147,7 @@ func (p *ParkingLot) isFull() (b bool) {
 
 func (p *ParkingLot) getVehicleFromSlot(slot int64) (veh vehicle.Vehicle, err error) {
 	if p.VehicleSlot == nil {
-		err = errors.New(ERR_VEHICLE_SLOT)
+		err = errors.New(errs.ERR_VEHICLE_SLOT)
 		return
 	}
 
@@ -178,7 +159,7 @@ func (p *ParkingLot) getVehicleFromSlot(slot int64) (veh vehicle.Vehicle, err er
 
 func (p *ParkingLot) getSlotFromRegistration(veh vehicle.Vehicle) (slot int64, err error) {
 	if p.RegistrationSlot == nil {
-		err = errors.New(ERR_REGISTER_SLOT)
+		err = errors.New(errs.ERR_REGISTER_SLOT)
 		return
 	}
 
@@ -191,7 +172,7 @@ func (p *ParkingLot) getSlotFromRegistration(veh vehicle.Vehicle) (slot int64, e
 
 func (p ParkingLot) getRegistrationNumberFromColor(veh vehicle.Vehicle) (regs []string, err error) {
 	if p.ColorRegistrationSlot == nil {
-		err = errors.New(ERR_COLOR_REGISTER_SLOT)
+		err = errors.New(errs.ERR_COLOR_REGISTER_SLOT)
 		return
 	}
 
@@ -209,7 +190,7 @@ func (p ParkingLot) getRegistrationNumberFromColor(veh vehicle.Vehicle) (regs []
 
 func (p ParkingLot) getSlotsFromColor(veh vehicle.Vehicle) (slot []int64, err error) {
 	if p.ColorRegistrationSlot == nil {
-		err = errors.New(ERR_COLOR_REGISTER_SLOT)
+		err = errors.New(errs.ERR_COLOR_REGISTER_SLOT)
 		return
 	}
 
@@ -227,7 +208,7 @@ func (p ParkingLot) getSlotsFromColor(veh vehicle.Vehicle) (slot []int64, err er
 
 func (p *ParkingLot) deleteVehicleFromSlot(slot int64) (err error) {
 	if p.VehicleSlot == nil {
-		err = errors.New(ERR_VEHICLE_SLOT)
+		err = errors.New(errs.ERR_VEHICLE_SLOT)
 		return
 	}
 
@@ -237,7 +218,7 @@ func (p *ParkingLot) deleteVehicleFromSlot(slot int64) (err error) {
 
 func (p *ParkingLot) deleteSlotFromRegistration(veh vehicle.Vehicle) (err error) {
 	if p.RegistrationSlot == nil {
-		err = errors.New(ERR_REGISTER_SLOT)
+		err = errors.New(errs.ERR_REGISTER_SLOT)
 		return
 	}
 
@@ -247,7 +228,7 @@ func (p *ParkingLot) deleteSlotFromRegistration(veh vehicle.Vehicle) (err error)
 
 func (p ParkingLot) deleteRegistrationNumberFromColor(veh vehicle.Vehicle) (err error) {
 	if p.ColorRegistrationSlot == nil {
-		err = errors.New(ERR_COLOR_REGISTER_SLOT)
+		err = errors.New(errs.ERR_COLOR_REGISTER_SLOT)
 		return
 	}
 

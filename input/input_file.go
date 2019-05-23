@@ -9,12 +9,9 @@ import (
 	"strconv"
 	"strings"
 
+	errs "github.com/parking_lot/errs"
 	parking "github.com/parking_lot/parkingLot"
 	"github.com/parking_lot/vehicle"
-)
-
-const (
-	ERR_COMMAND_NOT_ALLOWED = "Command not allowed"
 )
 
 //only allowed commands are executed.
@@ -26,6 +23,7 @@ var allowedCommands = map[string]bool{
 	"registration_numbers_for_cars_with_colour": true,
 	"slot_numbers_for_cars_with_colour":         true,
 	"slot_number_for_registration_number":       true,
+	"exit": true,
 }
 
 func ReadFile(fileName string) (lines []string, err error) {
@@ -85,12 +83,17 @@ func ProcessFile(readFile []string) {
 func processCommands(words []string) (err error) {
 	parkingLot := parking.MakeParkingLot()
 
-	if len(words) > 1 {
+	if len(words) > 0 {
 		word := words[0]
 
 		if _, ok := allowedCommands[word]; ok {
 			switch word {
 			case "create_parking_lot":
+				if !(len(words) > 1) {
+					err = errors.New(errs.ERR_INVALID_ARGUMENT)
+					return
+				}
+
 				slotStr := words[1]
 
 				var slot int64
@@ -105,21 +108,29 @@ func processCommands(words []string) (err error) {
 				}
 
 			case "park":
-				if len(words) > 2 {
-					regNo := words[1]
-					color := words[2]
+				if !(len(words) > 2) {
+					err = errors.New(errs.ERR_INVALID_ARGUMENT)
+					return
+				}
 
-					veh := vehicle.InitVehicle().
-						AddColor(color).
-						AddRegistrationNumber(regNo)
+				regNo := words[1]
+				color := words[2]
 
-					err = parkingLot.ParkVehicle(*veh)
-					if err != nil {
-						return
-					}
+				veh := vehicle.InitVehicle().
+					AddColor(color).
+					AddRegistrationNumber(regNo)
+
+				err = parkingLot.ParkVehicle(*veh)
+				if err != nil {
+					return
 				}
 
 			case "leave":
+				if !(len(words) > 1) {
+					err = errors.New(errs.ERR_INVALID_ARGUMENT)
+					return
+				}
+
 				slotStr := words[1]
 
 				var slot int64
@@ -139,6 +150,12 @@ func processCommands(words []string) (err error) {
 					return
 				}
 			case "registration_numbers_for_cars_with_colour":
+
+				if !(len(words) > 1) {
+					err = errors.New(errs.ERR_INVALID_ARGUMENT)
+					return
+				}
+
 				color := words[1]
 
 				_, err = parkingLot.GetRegistrationNumWithColor(color)
@@ -146,6 +163,12 @@ func processCommands(words []string) (err error) {
 					return
 				}
 			case "slot_numbers_for_cars_with_colour":
+
+				if !(len(words) > 1) {
+					err = errors.New(errs.ERR_INVALID_ARGUMENT)
+					return
+				}
+
 				color := words[1]
 
 				_, err = parkingLot.GetSlotNumsForCarWithColor(color)
@@ -154,15 +177,23 @@ func processCommands(words []string) (err error) {
 				}
 
 			case "slot_number_for_registration_number":
+
+				if !(len(words) > 1) {
+					err = errors.New(errs.ERR_INVALID_ARGUMENT)
+					return
+				}
+
 				regNo := words[1]
 
 				_, err = parkingLot.GetSlotWithRegisterationNum(regNo)
 				if err != nil {
 					return
 				}
+			case "exit":
+				os.Exit(0)
 			}
 		} else {
-			err = errors.New(ERR_COMMAND_NOT_ALLOWED)
+			err = errors.New(errs.ERR_COMMAND_NOT_ALLOWED)
 		}
 	}
 

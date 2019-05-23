@@ -47,7 +47,7 @@ func main() {
 		}
 	} else if len(arg) == 1 {
 		//interactive console
-		input.CreateIntractiveShell()
+		input.CreateIntractiveShell().RunShell()
 	}
 
 }
