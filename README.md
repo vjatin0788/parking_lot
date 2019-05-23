@@ -15,5 +15,5 @@ Follow this step to run application in Golang
 1. To run this application, install Go.
 2. Place the package in /go/src/github.com/ where GOPATH(/go/src).
 3. Navigate to path $GOPATH/github.com/parking_lot/
-3. Run `/bin/setup` script to install dependencies,run test case and build package.
-4. To run application, run binary `/bin/parking_lot`.
+4. Run `/bin/setup` script to install dependencies,run test case and build package.
+5. To run application, run binary `/bin/parking_lot`.Please make sure its in executable mode in your    system Run `chmod 755 parking_lot` in command prompt if not. Please make sure your GOPATH is set     to application directory 

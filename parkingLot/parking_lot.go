@@ -165,12 +165,12 @@ func (p *ParkingLot) ParkingLotStatus() (err error) {
 		return
 	}
 
-	fmt.Println("Slot Number | \tRegistration Number | \tColor")
+	fmt.Println("Slot No.    Registration No    Colour")
 	var idx int64
 
 	for idx = 1; idx <= p.NumberOfSlots; idx++ {
 		if veh, ok := p.VehicleSlot[idx]; ok {
-			fmt.Printf("%-12v%-25v%-10v\n", idx, strings.ToUpper(veh.RegisterationNumber), veh.Color)
+			fmt.Printf("%-12v%-19v%-6v\n", idx, strings.ToUpper(veh.RegisterationNumber), veh.Color)
 		}
 	}
 
